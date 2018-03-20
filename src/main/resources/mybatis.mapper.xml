@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.mybatis.dto.UserMapper">
+    
+    <resultMap id="UserResultMap" type="com.qianfeng.mybatis.dto.User2DTO">
+        <id property="userId" column="user_id" javaType="java.lang.Integer"/>
+        <result property="username" column="user_name" javaType="java.lang.String"/>
+        <result property="email" column="user_email" javaType="java.lang.String"/>
+        <result property="password" column="user_password" javaType="java.lang.String"/>
+        <result property="sex" column="user_sex" javaType="java.lang.Character"/>
+        <association property="departmentDTO" javaType="com.qianfeng.mybatis.dto.DepartmentDTO">
+            <id property="dpmtId" column="dpmt_id" javaType="java.lang.Integer"/>
+            <result property="dpmtName" column="dpmt_name" javaType="java.lang.String"/>
+        </association>
+        
+    </resultMap>
+
+
+
+
+    <select id="selectUser" resultType="com.qianfeng.mybatis.dto.UserDTO">
+        select * from tb_user
+    </select>
+
+    <select id="selectUserById" resultType="com.qianfeng.mybatis.dto.UserDTO">
+        SELECT * from tb_user where user_id=#{id}
+    </select>
+
+    <select id="checkUser" resultType="com.qianfeng.mybatis.dto.UserDTO">
+        SELECT * from tb_user where user_name=#{name} and user_password=#{password}
+    </select>
+
+    <select id="login" resultType="com.qianfeng.mybatis.dto.UserDTO">
+        SELECT * from tb_user where user_name=#{user_name} and user_password=#{user_password}
+    </select>
+
+    <insert id="save">
+        INSERT INTO tb_user(user_name,user_password,user_email,user_sex)
+        VALUES (#{user_name},#{user_password},#{user_email},#{user_sex})
+    </insert>
+
+    <delete id="delete">
+        DELETE from tb_user where user_name=#{user_name}
+    </delete>
+
+    <update id="update">
+        UPDATE  tb_user SET user_name=#{user_name} where user_id=#{user_id}
+    </update>
+
+    <!--resultMap就是结果集映射-->
+    <select id="queryUserByMap" resultMap="UserResultMap">
+        select * FROM tb_user
+    </select>
+
+    <select id="queryUserByName" resultMap="UserResultMap">
+        select * from tb_department d join tb_user u on d.dpmt_id=u.fk_dpmt_id and u.user_name=#{name}
+    </select>
+</mapper>

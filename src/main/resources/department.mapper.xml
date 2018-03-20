@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.mybatis.dto.DepartmentMapper">
+    <resultMap id="departmentResultMap" type="com.qianfeng.mybatis.dto.DepartmentDTO">
+        <id property="dpmtId" column="dpmt_id" javaType="java.lang.Integer"/>
+        <result property="dpmtName" column="dpmt_name" javaType="java.lang.String"/>
+
+        <!--ofType是当前集合的泛型-->
+        <collection property="list" ofType="com.qianfeng.mybatis.dto.User2DTO">
+            <id property="userId" column="user_id" javaType="java.lang.Integer"/>
+            <result property="username" column="user_name" javaType="java.lang.String"/>
+            <result property="password" column="user_passowrd" javaType="java.lang.String"/>
+            <result property="email" column="user_email" javaType="java.lang.String"/>
+            <result property="sex" column="user_sex" javaType="java.lang.Character"/>
+        </collection>
+    </resultMap>
+    <select id="selectById" resultMap="departmentResultMap">
+        SELECT * from tb_user u JOIN tb_department d
+        on u.fk_dpmt_id=d.dpmt_id and d.dpmt_id=#{dpmtId}
+    </select>
+    </mapper>
